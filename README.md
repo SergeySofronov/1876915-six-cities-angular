@@ -1,4 +1,4 @@
-# Личный проект «{{projectTitle}}»
+# Личный проект «Шесть городов»
 
 * Студент: [Сергей Софронов](https://htmlacademy.ru/profile/id1876915).
 * Наставник: [Сергей Андреев](https://htmlacademy.ru/profile/id812127).

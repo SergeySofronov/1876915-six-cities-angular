@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from './components/header/header.component';
+import { getPlaces } from './mocks/places';
+import './polyfills';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'angular-template-project';
+  pageClassName = 'page--gray page--main';
+  isLogoActive = true;
+  shouldUserInfoRender = true;
+  favorites = getPlaces().slice(0, 1);
 }
