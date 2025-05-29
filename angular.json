@@ -24,7 +24,9 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/site.webmanifest",
+              "src/favicon.ico"
             ],
             "styles": [
               "src/styles.css"
@@ -106,6 +108,6 @@
     "schematicCollections": [
       "angular-eslint"
     ],
-    "analytics": "37e43af5-d7f5-4659-b875-d6fd60d65321"
+    "analytics": false
   }
 }
