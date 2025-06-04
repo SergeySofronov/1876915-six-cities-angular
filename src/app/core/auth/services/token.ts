@@ -1,4 +1,4 @@
-import { LoggedUser } from '../types';
+import { LoggedUser } from '@app/types';
 
 const USER_DATA_KEY_NAME = '6-cities-user-data';
 
