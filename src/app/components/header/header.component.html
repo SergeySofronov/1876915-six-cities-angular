@@ -1,4 +1,4 @@
-<header class="header" data-testid="header">
+<header class="header">
   <div class="container">
     <div class="header__wrapper">
       <div class="header__left">
@@ -9,7 +9,7 @@
       </div>
 
       @if (shouldUserInfoRender) {
-      <nav class="header__nav" data-testid="nav">
+      <nav class="header__nav">
         <ul class="header__nav-list">
           <li class="header__nav-item user">
             <a class="header__nav-link header__nav-link--profile" [routerLink]="favoriteLink"
@@ -22,16 +22,16 @@
               </div>
 
               @if (user) {
-              <span class="header__user-name user__name" data-testid="user-email">{{user.email}}</span>
-              <span class="header__favorite-count" data-testid="favorites-count">{{favorites.length}}</span>
+              <span class="header__user-name user__name">{{user.email}}</span>
+              <span class="header__favorite-count">{{favorites.length}}</span>
               } @else {
-              <span class="header__login" data-testid="login-link">Sign in</span>
+              <span class="header__login">Sign in</span>
               }
 
             </a>
           </li>
           @if (user) {
-          <li class="header__nav-item" data-testid="logout-link">
+          <li class="header__nav-item">
             <a class="header__nav-link" [routerLink]="logoutLink" (click)="logoutHandler()">
               <span class="header__signout">Sign out</span>
             </a>
