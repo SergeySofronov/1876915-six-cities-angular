@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AppRoute, AuthorizationStatus } from '@app/const';
 import { LoggedUser, PlacePreview } from '@app/types';
@@ -12,26 +12,22 @@ import { getUserData } from '../../auth/services/token';
   imports: [RouterLink],
 })
 export class HeaderComponent {
-  logoLink!: string;
-  logoutLink!: string;
-  favoriteLink!: string;
-  user!: LoggedUser | null;
+  public logoLink = AppRoute.Main;
+  public logoutLink = AppRoute.Login;
+  public favoriteLink = AppRoute.Favorites;
+  public user!: LoggedUser | null;
 
-  @Input({required: true}) isLogoActive!: boolean;
-  @Input({required: true}) shouldUserInfoRender!: boolean;
-  @Input({required: true}) favorites!: PlacePreview[];
+  public isLogoActive = input.required<boolean>();
+  public shouldUserInfoRender = input.required<boolean>();
+  public favorites = input.required<PlacePreview[]>();
 
   constructor() {
-    this.logoLink = AppRoute.Main;
-    this.logoutLink = AppRoute.Login;
-    this.favoriteLink = AppRoute.Favorites;
-
     //!!! заменить на сервис
     this.user = getAuthorizationStatus() === AuthorizationStatus.Auth ? getUserData() : null;
   }
 
   logoClickHandler = (event: Event) => {
-    if (this.isLogoActive) {
+    if (this.isLogoActive()) {
       event.preventDefault();
     }
   }

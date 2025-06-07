@@ -1,1 +1,16 @@
-<p>not-found-page works!</p>
+<main class="page__main page__main--index page__main--index-empty">
+  <h1 class="visually-hidden">Page not found (empty)</h1>
+  <div class="cities">
+    <div class="cities__places-container cities__places-container--empty container">
+      <section class="cities__no-places">
+        <div class="cities__status-wrapper tabs__content">
+          <b class="cities__status">404 Page not found</b>
+          <a class="cities__status-description not-found-link" [routerLink]="goBackLink">
+            Go Back
+          </a>
+        </div>
+      </section>
+      <div class="cities__right-section"></div>
+    </div>
+  </div>
+</main>
