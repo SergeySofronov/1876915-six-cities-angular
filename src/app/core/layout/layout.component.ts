@@ -3,7 +3,7 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { getPlaces } from 'src/app/mocks/places';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { AppRoute } from '@app/const';
 
 @Component({
@@ -17,44 +17,50 @@ import { AppRoute } from '@app/const';
 })
 export class LayoutComponent implements OnInit, OnDestroy {
 
-  public newPageClassName = signal('');
-  public pageClassName = computed(() => `page ${this.newPageClassName()}`);
+  public newPageClassName = signal<string>('');
+  public readonly pageClassName = computed<string>(() => `page ${this.newPageClassName()}`);
   public isLogoActive = true;
   public shouldUserInfoRender = true;
-  public favorites = getPlaces().slice(0, 1); //!!! store service
+  public readonly favorites = getPlaces().slice(0, 1); //!!! store service
 
-  private router = inject(Router);
-  private queryParamsSubscription?: Subscription;
+  private readonly router = inject(Router);
+  private urlChangeSubscription?: Subscription;
 
+  // Subscribing to router events to update the page class name
+  // because <router-outlet /> is a child of <app-layout />
   ngOnInit() {
-    this.queryParamsSubscription = this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        switch (event.url.slice(1)) {
-          case AppRoute.Main:
-            this.newPageClassName.set('page--gray page--main');
-            break;
+    this.urlChangeSubscription = this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
 
-          case AppRoute.Login:
-            this.newPageClassName.set('page--gray page--login');
-            break;
+      const indexOfQuery = event.url.indexOf('?');
+      const url = event.url.slice(1, indexOfQuery === -1 ? undefined : indexOfQuery);
 
-          case AppRoute.NotFound:
-            this.newPageClassName.set('page__main page__main--index page__main--index-empty not-found');
-            break;
+      switch (url) {
+        case AppRoute.Main:
+          this.newPageClassName.set('page--gray page--main');
+          break;
 
-          case AppRoute.Favorites:
-            if (this.favorites.length === 0) {
-              this.newPageClassName.set('page--favorites-empty');
-            }
-            break;
+        case AppRoute.Login:
+          this.newPageClassName.set('page--gray page--login');
+          break;
 
-          default: break;
-        }
+        case AppRoute.NotFound:
+          this.newPageClassName.set('page__main page__main--index page__main--index-empty not-found');
+          break;
+
+        case AppRoute.Favorites:
+          if (this.favorites.length === 0) {
+            this.newPageClassName.set('page--favorites-empty');
+          }
+          break;
+
+        default: break;
       }
-    })
+    });
   }
 
   ngOnDestroy() {
-    this.queryParamsSubscription?.unsubscribe();
+    this.urlChangeSubscription?.unsubscribe();
   }
 }

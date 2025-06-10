@@ -9,5 +9,5 @@ import { AppRoute } from '@app/const';
   styleUrl: './not-found-page.component.css'
 })
 export class NotFoundPageComponent {
-  public goBackLink = AppRoute.Main;
+  public readonly goBackLink = AppRoute.Main;
 }

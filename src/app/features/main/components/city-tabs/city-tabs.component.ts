@@ -11,11 +11,11 @@ import { CityName } from '@app/types';
   styleUrl: './city-tabs.component.css'
 })
 export class CityTabsComponent implements OnInit, OnDestroy {
-  public cityNames = CITY_NAMES;
-  public activeCityName = this.cityNames[0];
-  public routerLink = AppRoute.Main;
+  public readonly cityNames = CITY_NAMES;
+  public readonly routerLink = AppRoute.Main;
+  public activeCityName = CITY_NAMES[0];
   public queryParams: Params = { city: this.activeCityName };
-  public routerLinkActiveOptions: IsActiveMatchOptions = {
+  public readonly routerLinkActiveOptions: IsActiveMatchOptions = {
     matrixParams: 'ignored',
     queryParams: 'exact',
     paths: 'exact',
@@ -23,8 +23,8 @@ export class CityTabsComponent implements OnInit, OnDestroy {
   }
 
   private queryParamsSubscription?: Subscription;
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   private updateQueryParams = (cityName: CityName) => {
     if (cityName === this.activeCityName) {
@@ -36,6 +36,8 @@ export class CityTabsComponent implements OnInit, OnDestroy {
     this.router.navigate([], { queryParams: { city: cityName }, queryParamsHandling: 'merge' });
   }
 
+  // Subscribing to query params to update the active city name
+  // because there are some links that may change the query params
   ngOnInit() {
     this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       const city = params['city'];

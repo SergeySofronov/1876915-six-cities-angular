@@ -1,9 +1,8 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AppRoute, AuthorizationStatus } from '@app/const';
-import { LoggedUser, PlacePreview } from '@app/types';
-import { getAuthorizationStatus } from 'src/app/mocks/utils';
-import { getUserData } from '../../auth/services/token';
+import { AppRoute } from '@app/const';
+import { LoggedUser } from '@app/types';
+import { UserService } from '../../auth/services/user/user.service';
 
 @Component({
   selector: 'app-layout-header',
@@ -12,18 +11,19 @@ import { getUserData } from '../../auth/services/token';
   imports: [RouterLink],
 })
 export class HeaderComponent {
-  public logoLink = AppRoute.Main;
-  public logoutLink = AppRoute.Login;
-  public favoriteLink = AppRoute.Favorites;
+  public readonly logoLink = AppRoute.Main;
+  public readonly logoutLink = AppRoute.Login;
+  public readonly favoriteLink = AppRoute.Favorites;
   public user!: LoggedUser | null;
 
-  public isLogoActive = input.required<boolean>();
-  public shouldUserInfoRender = input.required<boolean>();
-  public favorites = input.required<PlacePreview[]>();
+  public readonly isLogoActive = input.required<boolean>();
+  public readonly shouldUserInfoRender = input.required<boolean>();
+  public readonly favorites = input.required<unknown[]>();
+
+  private readonly userService = inject(UserService);
 
   constructor() {
-    //!!! заменить на сервис
-    this.user = getAuthorizationStatus() === AuthorizationStatus.Auth ? getUserData() : null;
+    this.user = this.userService.getUserData(); //!!! заменить на подписку на изменения через RxJS или store selector
   }
 
   logoClickHandler = (event: Event) => {

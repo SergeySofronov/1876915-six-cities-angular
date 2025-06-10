@@ -1,4 +1,6 @@
-import { LoggedUser } from '@app/types';
+// import { LoggedUser } from '@app/types';
+
+import { LoggedUser } from "@app/types";
 
 const USER_DATA_KEY_NAME = '6-cities-user-data';
 
@@ -10,7 +12,7 @@ export const getToken = (): Token => {
   return data?.token ?? '';
 };
 
-export const getUserData = (): LoggedUser => JSON.parse(localStorage.getItem(USER_DATA_KEY_NAME) ?? 'null') as LoggedUser;
+// export const getUserData = (): LoggedUser => JSON.parse(localStorage.getItem(USER_DATA_KEY_NAME) ?? 'null') as LoggedUser;
 
 export const saveUserData = (userData: LoggedUser): void => {
   localStorage.setItem(USER_DATA_KEY_NAME, JSON.stringify(userData));

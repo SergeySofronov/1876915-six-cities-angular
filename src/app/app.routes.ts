@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AppRoute } from './app.const';
+import { isAuthorizedGuardFn } from './core/auth/guards/is-authorized.guard';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,8 @@ export const routes: Routes = [
   {
     title: '6 Cities - Favorites',
     path: AppRoute.Favorites,
+    canLoad: [isAuthorizedGuardFn],
+    canActivate: [isAuthorizedGuardFn],
     loadComponent: () => import('./features/favorites/pages/favorites-page/favorites-page.component').then((c) => c.FavoritesPageComponent),
   },
   {

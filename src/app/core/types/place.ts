@@ -1,4 +1,4 @@
-import { CitiesDefaults, SortType } from '../app.const';
+import { CitiesDefaults, SortType } from '@app/const';
 import { User } from './user';
 
 export enum HousingType {

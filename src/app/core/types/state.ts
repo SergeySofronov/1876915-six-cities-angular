@@ -1,5 +1,5 @@
 // import { store } from '../store/index.js';
-import { AuthorizationStatus } from '../app.const.js';
+import { AuthorizationStatus } from '@app/const';
 import { MarkerType, Place, PlacePreview } from './place.js';
 import { PlaceComment } from './comment.js';
 
