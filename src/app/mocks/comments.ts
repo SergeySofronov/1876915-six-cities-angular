@@ -1,4 +1,4 @@
-import { PlaceComment } from '@app/types';
+import { PlaceComment } from 'src/app/core/models';
 
 const comments: PlaceComment[] = [
   {

@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, IsActiveMatchOptions, Params, Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { distinctUntilChanged, map, Subscription, tap } from 'rxjs';
 import { AppRoute, CITY_NAMES } from '@app/const';
-import { CityName } from '@app/types';
+import { CityName } from 'src/app/core/models';
 
 @Component({
   selector: 'app-city-tabs',
@@ -33,16 +33,17 @@ export class CityTabsComponent implements OnInit, OnDestroy {
 
     cityName = cityName || this.activeCityName;
     this.activeCityName = cityName;
-    this.router.navigate([], { queryParams: { city: cityName }, queryParamsHandling: 'merge' });
+    this.router.navigate([], { queryParams: { city: cityName }, queryParamsHandling: 'merge', replaceUrl: true });
   }
 
   // Subscribing to query params to update the active city name
   // because there are some links that may change the query params
   ngOnInit() {
-    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
-      const city = params['city'];
-      this.updateQueryParams(city);
-    });
+    this.queryParamsSubscription = this.route.queryParams.pipe(
+      distinctUntilChanged(),
+      map((params) => params['city']),
+      tap((city) => this.updateQueryParams(city))
+    ).subscribe();
   }
 
   ngOnDestroy() {

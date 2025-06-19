@@ -20,9 +20,10 @@
     "baseUrl": ".",
     "paths": {
       "@app/const": ["./src/app/app.const.ts"],
-      "@app/types": ["./src/app/core/types/index.ts"],
+      "@app/types": ["src/app/core/models/index.ts"],
       "@app/store": ["./src/app/store/index.ts"],
-      "@app/utils": ["./src/app/utils/index.ts"]
+      "@app/utils": ["./src/app/utils/index.ts"],
+      "@shared": ["./src/app/shared/index.ts"]
     },
     "lib": ["DOM", "ES2024"],
   },

@@ -1,4 +1,4 @@
-import { Place, HousingType } from '@app/types';
+import { Place, HousingType } from 'src/app/core/models';
 
 const placeDetails: Place[] = [
   {

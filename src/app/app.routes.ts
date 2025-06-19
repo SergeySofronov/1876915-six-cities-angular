@@ -11,6 +11,7 @@ export const routes: Routes = [
   {
     title: '6 Cities - Login',
     path: AppRoute.Login,
+    canActivate: [isAuthorizedGuardFn],
     loadComponent: () => import('./features/login/pages/login-page/login-page.component').then((c) => c.LoginPageComponent),
   },
   {

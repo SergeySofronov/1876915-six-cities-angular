@@ -1,35 +1,29 @@
-import { inject, Injectable } from '@angular/core';
-import { CanActivate, CanActivateFn, Router } from '@angular/router';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { UserService } from '../services/user/user.service';
+import { NavigationService } from '@shared';
 import { AppRoute } from '@app/const';
+import { map } from 'rxjs';
 
-// Class style guard with injectable entities (not used in the project)
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthGuard implements CanActivate {
+export const isAuthorizedGuardFn: CanActivateFn = (_: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+  const router = inject(Router);
+  const userService = inject(UserService);
+  const navigationService = inject(NavigationService);
+  const isLoginUrl = state.url.includes(AppRoute.Login);
 
-  private readonly userService = inject(UserService);
-  private readonly router = inject(Router);
+  return userService.isAuthorized$.pipe(
+    map((isAuthorized) => {
+      if (isAuthorized && isLoginUrl) {
+        navigationService.back();
+        return false;
+      }
 
-  canActivate(): boolean {
-    console.log("🚀 ~ AuthGuard ~ canActivate ~ this.userService.isAuthorized:", this.userService.isAuthorized)
-    if (this.userService.isAuthorized) {
+      if (!isAuthorized && !isLoginUrl) {
+        router.navigate([AppRoute.Login]);
+        return false;
+      }
+
       return true;
-    } else {
-      this.router.navigate([AppRoute.Login]);
-      return false;
-    }
-  }
-}
-
-// Function style guard with injectable entities
-export const isAuthorizedGuardFn: CanActivateFn = () => {
-  const isAuthorized = inject(UserService).isAuthorized;
-  if (isAuthorized) {
-    return true;
-  } else {
-    inject(Router).navigate([AppRoute.Login]);
-    return false;
-  }
+    }),
+  );
 }

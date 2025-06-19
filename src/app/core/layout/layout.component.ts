@@ -1,10 +1,10 @@
 import { Component, inject, signal, OnInit, OnDestroy, computed } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
+import { AppRoute } from '@app/const';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { getPlaces } from 'src/app/mocks/places';
-import { filter, Subscription } from 'rxjs';
-import { AppRoute } from '@app/const';
 
 @Component({
   selector: 'app-layout',

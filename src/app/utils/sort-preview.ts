@@ -1,5 +1,5 @@
 import { SortType } from '@app/const';
-import { PlacePreview, PlaceSortType } from '@app/types';
+import { PlacePreview, PlaceSortType } from 'src/app/core/models';
 
 type Sort = Record<string, (preview: PlacePreview[]) => PlacePreview[]>;
 

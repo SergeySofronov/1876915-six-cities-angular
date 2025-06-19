@@ -1,4 +1,4 @@
-import { PlacePreview, HousingType } from '@app/types';
+import { PlacePreview, HousingType } from 'src/app/core/models';
 
 const places: PlacePreview[] = [
   {

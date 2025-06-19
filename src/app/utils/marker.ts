@@ -1,5 +1,5 @@
 import { CitiesDefaults, DEFAULT_CITY } from '@app/const';
-import { PlacePreview } from '@app/types';
+import { PlacePreview } from 'src/app/core/models';
 
 export const getCityLocation = (cityName: string, previews: PlacePreview[]) => {
   const existPreview = previews.find((item) => item.city.name === cityName);

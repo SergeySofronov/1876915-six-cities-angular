@@ -1,7 +1,7 @@
 import { Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AppRoute } from '@app/const';
-import { LoggedUser } from '@app/types';
+import { LoggedUser } from 'src/app/core/models';
 import { UserService } from '../../auth/services/user/user.service';
 
 @Component({
