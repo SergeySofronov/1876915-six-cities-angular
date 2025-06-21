@@ -10,5 +10,6 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
       ...(token ? { 'X-Token': token } : {}),
     },
   });
+
   return next(request);
 };

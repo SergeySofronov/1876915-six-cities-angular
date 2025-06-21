@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { NavigationService } from '@shared';
+import { NavigationService } from '@shared/services';
 import { EnvironmentService } from './core/services/environment/environment.service';
-import { LayoutComponent } from './core/layout/layout.component';
+import { LayoutComponent } from '@core/layout';
 
 import './polyfills';
 

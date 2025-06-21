@@ -1,5 +1,5 @@
 import { Directive, inject } from '@angular/core';
-import { NavigationService } from '@shared';
+import { NavigationService } from '@shared/services';
 
 @Directive({
   selector: '[appGoBack]',

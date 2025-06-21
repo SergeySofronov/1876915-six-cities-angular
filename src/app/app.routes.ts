@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { AppRoute } from './app.const';
-import { isAuthorizedGuardFn } from './core/auth/guards/is-authorized.guard';
+import { isAuthorizedGuardFn, isNotAuthorizedGuardFn } from '@core/auth/guards';
 
 export const routes: Routes = [
   {
@@ -11,7 +11,8 @@ export const routes: Routes = [
   {
     title: '6 Cities - Login',
     path: AppRoute.Login,
-    canActivate: [isAuthorizedGuardFn],
+    canLoad: [isNotAuthorizedGuardFn],
+    canActivate: [isNotAuthorizedGuardFn],
     loadComponent: () => import('./features/login/pages/login-page/login-page.component').then((c) => c.LoginPageComponent),
   },
   {

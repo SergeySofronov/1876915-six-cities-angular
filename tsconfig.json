@@ -20,10 +20,20 @@
     "baseUrl": ".",
     "paths": {
       "@app/const": ["./src/app/app.const.ts"],
-      "@app/types": ["src/app/core/models/index.ts"],
       "@app/store": ["./src/app/store/index.ts"],
       "@app/utils": ["./src/app/utils/index.ts"],
-      "@shared": ["./src/app/shared/index.ts"]
+
+      "@core/models": ["src/app/core/models/index.ts"],
+      "@core/services": ["./src/app/core/services/index.ts"],
+      "@core/interceptors": ["./src/app/core/interceptors/index.ts"],
+      "@core/layout": ["./src/app/core/layout/layout.component.ts"],
+      "@core/auth/services": ["./src/app/core/auth/services/index.ts"],
+      "@core/auth/guards": ["./src/app/core/auth/guards/index.ts"],
+
+      "@shared/components": ["./src/app/shared/components/index.ts"],
+      "@shared/directives": ["./src/app/shared/directives/index.ts"],
+      "@shared/services": ["./src/app/shared/services/index.ts"],
+      "@shared/models": ["./src/app/shared/models/index.ts"],
     },
     "lib": ["DOM", "ES2024"],
   },

@@ -14,6 +14,4 @@ export class UserService {
   public readonly user$ = this.userSubject.asObservable().pipe(distinctUntilChanged());
 
   public isAuthorized$ = this.user$.pipe(map((user) => !!user));
-
-  public getUserData = (): LoggedUser | null => this.userSubject.getValue(); //!!!
 }

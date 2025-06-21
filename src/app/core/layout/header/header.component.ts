@@ -1,8 +1,9 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AppRoute } from '@app/const';
 import { LoggedUser } from 'src/app/core/models';
 import { UserService } from '../../auth/services/user/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-layout-header',
@@ -10,7 +11,7 @@ import { UserService } from '../../auth/services/user/user.service';
   styleUrl: './header.component.css',
   imports: [RouterLink],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy {
   public readonly logoLink = AppRoute.Main;
   public readonly logoutLink = AppRoute.Login;
   public readonly favoriteLink = AppRoute.Favorites;
@@ -21,9 +22,16 @@ export class HeaderComponent {
   public readonly favorites = input.required<unknown[]>();
 
   private readonly userService = inject(UserService);
+  private readonly subscription!: Subscription;
 
   constructor() {
-    this.user = this.userService.getUserData(); //!!! заменить на подписку на изменения через RxJS или store selector
+    this.subscription = this.userService.user$.subscribe((user) => {
+      this.user = user;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   logoClickHandler = (event: Event) => {

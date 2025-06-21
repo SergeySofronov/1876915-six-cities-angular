@@ -2,6 +2,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Router, RoutesRecognized } from '@angular/router';
 import { AppRoute } from '@app/const';
+import { Location } from '@angular/common';
 import { filter, pairwise, Subscription } from 'rxjs';
 
 @Injectable({
@@ -13,7 +14,7 @@ export class NavigationService implements OnDestroy {
 
   constructor(
     private readonly router: Router,
-    // private readonly location: Location
+    private readonly location: Location
   ) {
     this.subscription = this.router.events
       .pipe(
@@ -27,8 +28,7 @@ export class NavigationService implements OnDestroy {
 
   public back(): void {
     if (this.previousUrl !== undefined) {
-      this.router.navigate([this.previousUrl], { replaceUrl: true });
-      // this.location.back();
+      this.location.back();
     }
 
     this.router.navigate([AppRoute.Main], { replaceUrl: true });
