@@ -18,6 +18,6 @@ export class AppComponent {
 
 
   constructor() {
-    console.log(this.environmentService.getValue('apiUrl'));
+    console.log("apiUrl", this.environmentService.getValue('apiUrl'));
   }
 }
