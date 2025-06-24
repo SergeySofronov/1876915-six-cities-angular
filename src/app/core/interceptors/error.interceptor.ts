@@ -14,6 +14,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next: HttpHandlerFn) =>
       }
 
       //show notification
+      console.log(error);
 
       return throwError(() => error);
     })
