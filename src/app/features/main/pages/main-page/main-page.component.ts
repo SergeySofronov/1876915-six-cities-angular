@@ -8,6 +8,4 @@ import { CitiesComponent } from "../../components/cities/cities.component";
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.css'
 })
-export class MainPageComponent {
-
-}
+export class MainPageComponent {}

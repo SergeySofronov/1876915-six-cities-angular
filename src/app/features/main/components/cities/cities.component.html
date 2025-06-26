@@ -1,1 +1,18 @@
-<p>cities works!</p>
+<div class="cities__places-container container" [class.cities__places-container--empty]="isPreviewsEmpty()">
+  @if(!isPreviewsEmpty()) {
+  <!-- <app-place-list [previews]="filteredPreviews" [cityName]="cityName" /> -->
+  <app-place-list />
+  <div class="cities__right-section">
+    <app-map [markers]="markers()" class="cities__map" [center]="markers()[0]" />
+  </div>
+  } @else {
+  <section class="cities__no-places" data-testid="place-list-empty">
+    <div class="cities__status-wrapper tabs__content">
+      <b class="cities__status">No places to stay available</b>
+      <p className="cities__status-description">
+        We could not find any property available at the moment in Dusseldorf
+      </p>
+    </div>
+  </section>
+  }
+</div>

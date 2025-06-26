@@ -13,14 +13,13 @@ _`.editorconfig`, `.gitattributes`, `.gitignore`._
 
 ### Памятка команд
 
+- Устанавливаем Angular CLI
+
+```bash
+npm install -g @angular/cli
+```
 - Устанавливаем зависимости
 
 ```bash
 npm install
-```
-
-- Запускаем проект
-
-```bash
-npm run start
 ```

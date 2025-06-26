@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AppRoute } from '@app/const';
 
@@ -9,7 +9,6 @@ import { AppRoute } from '@app/const';
   styleUrl: './footer.component.css'
 })
 export class FooterComponent {
-  logoLink = AppRoute.Main;
-
-  @Input() className?: boolean;
+  public logoLink = AppRoute.Main;
+  public className = input<string>('');
 }

@@ -4,7 +4,7 @@ import { filter, Subscription } from 'rxjs';
 import { AppRoute } from '@app/const';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { getPlaces } from 'src/app/mocks/places';
+import { getPlacePreviews } from 'src/app/mocks/previews';
 
 @Component({
   selector: 'app-layout',
@@ -22,7 +22,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   public isLogoActive = false;
   public shouldUserInfoRender = true;
   public shouldFooterRender = false;
-  public readonly favorites = getPlaces().slice(0, 1); //!!! store service
+  public readonly favorites = getPlacePreviews().slice(0, 1); //!!! store service
 
   private readonly router = inject(Router);
   private urlChangeSubscription?: Subscription;
