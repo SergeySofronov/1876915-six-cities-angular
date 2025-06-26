@@ -34,6 +34,26 @@
       "@shared/directives": ["./src/app/shared/directives/index.ts"],
       "@shared/services": ["./src/app/shared/services/index.ts"],
       "@shared/models": ["./src/app/shared/models/index.ts"],
+
+      "@features/main/components": ["./src/app/features/main/components/index.ts"],
+      "@features/main/pages": ["./src/app/features/main/pages/index.ts"],
+      "@features/main/services": ["./src/app/features/main/services/index.ts"],
+      "@features/main/models": ["./src/app/features/main/models/index.ts"],
+
+      "@features/favorites/components": ["./src/app/features/favorites/components/index.ts"],
+      "@features/favorites/pages": ["./src/app/features/favorites/pages/index.ts"],
+      "@features/favorites/services": ["./src/app/features/favorites/services/index.ts"],
+      "@features/favorites/models": ["./src/app/features/favorites/models/index.ts"],
+
+      "@features/login/components": ["./src/app/features/login/components/index.ts"],
+      "@features/login/pages": ["./src/app/features/login/pages/index.ts"],
+      "@features/login/services": ["./src/app/features/login/services/index.ts"],
+      "@features/login/models": ["./src/app/features/login/models/index.ts"],
+
+      "@features/places/components": ["./src/app/features/places/components/index.ts"],
+      "@features/places/pages": ["./src/app/features/places/pages/index.ts"],
+      "@features/places/services": ["./src/app/features/places/services/index.ts"],
+      "@features/places/models": ["./src/app/features/places/models/index.ts"],
     },
     "lib": ["DOM", "ES2024"],
   },
