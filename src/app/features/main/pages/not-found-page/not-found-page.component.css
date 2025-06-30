@@ -5,8 +5,3 @@
 .not-found-link {
     text-decoration: underline;
 }
-
-.cities__no-places::after {
-  right: -70px;
-  max-width: none;
-}

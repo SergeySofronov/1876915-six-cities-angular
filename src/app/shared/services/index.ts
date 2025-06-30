@@ -1,1 +1,1 @@
-export * from './navigation.service';
+export * from './history.service';

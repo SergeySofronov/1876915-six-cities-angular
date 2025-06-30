@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { NavigationService } from '@shared/services';
+import { HistoryService } from '@shared/services';
 import { EnvironmentService } from './core/services/environment/environment.service';
 import { LayoutComponent } from '@core/layout';
 
 import './polyfills';
-
+// import 'leaflet/dist/leaflet.css';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ import './polyfills';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  private readonly navigationService = inject(NavigationService);
+  private readonly navigationService = inject(HistoryService);
   private readonly environmentService = inject(EnvironmentService);
 
 

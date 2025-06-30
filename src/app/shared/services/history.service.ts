@@ -8,7 +8,7 @@ import { filter, pairwise, Subscription } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class NavigationService implements OnDestroy {
+export class HistoryService implements OnDestroy {
   private subscription: Subscription;
   private previousUrl?: string;
 

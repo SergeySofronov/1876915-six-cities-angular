@@ -3,3 +3,8 @@ router-outlet + * {
   flex-direction: column;
   flex-grow: 1;
 }
+
+.cities__no-places::after {
+  right: -70px;
+  max-width: none;
+}

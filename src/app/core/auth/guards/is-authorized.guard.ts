@@ -1,20 +1,20 @@
-import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivateFn, RouterStateSnapshot } from '@angular/router';
-import { UserService } from '@core/auth/services';
-import { NavigationService } from '@shared/services';
-import { AppRoute } from '@app/const';
-import { tap } from 'rxjs';
 
-export const isAuthorizedGuardFn: CanActivateFn = (_: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+
+import { tap } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { AppRoute } from '@app/const';
+import { UserService } from '../services';
+
+export const isAuthorizedGuardFn: CanActivateFn = () => {
   const userService = inject(UserService);
-  const navigationService = inject(NavigationService);
-  const isLoginUrl = state.url.includes(AppRoute.Login);
+  const router = inject(Router);
 
   return userService.isAuthorized$.pipe(
     tap((isAuthorized) => {
-      if (isAuthorized && isLoginUrl) {
-        navigationService.back();
+      if (!isAuthorized) {
+        router.navigate([AppRoute.Login]);
       }
     })
   );
-}
+};

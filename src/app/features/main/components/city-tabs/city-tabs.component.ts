@@ -8,7 +8,10 @@ import { CityName } from 'src/app/core/models';
   selector: 'app-city-tabs',
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './city-tabs.component.html',
-  styleUrl: './city-tabs.component.css'
+  styleUrl: './city-tabs.component.css',
+  host: {
+    class: 'tabs'
+  }
 })
 export class CityTabsComponent implements OnInit, OnDestroy {
   public readonly cityNames = CITY_NAMES;

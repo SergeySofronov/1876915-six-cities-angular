@@ -1,5 +1,5 @@
 import { Directive, inject } from '@angular/core';
-import { NavigationService } from '@shared/services';
+import { HistoryService } from '@shared/services';
 
 @Directive({
   selector: '[appGoBack]',
@@ -9,7 +9,7 @@ import { NavigationService } from '@shared/services';
 })
 export class GoBackDirective {
 
-  private readonly navigationService = inject(NavigationService);
+  private readonly navigationService = inject(HistoryService);
 
   goBack(event: Event) {
     if(event.currentTarget !== event.target){
