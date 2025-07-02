@@ -1,7 +1,7 @@
 import { Component, computed, input, signal } from '@angular/core';
 import { SortType } from '@app/const';
 import { PlacePreview, PlaceSortType } from '@core/models';
-import { PluralizePipe } from 'src/app/shared/pipes/pluralize.pipe';
+import { PluralizePipe } from '@shared/pipes';
 
 @Component({
   selector: 'app-place-list',

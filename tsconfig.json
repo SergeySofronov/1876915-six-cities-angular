@@ -34,6 +34,7 @@
       "@shared/directives": ["./src/app/shared/directives/index.ts"],
       "@shared/services": ["./src/app/shared/services/index.ts"],
       "@shared/models": ["./src/app/shared/models/index.ts"],
+      "@shared/pipes": ["./src/app/shared/pipes/index.ts"],
 
       "@features/main/components": ["./src/app/features/main/components/index.ts"],
       "@features/main/pages": ["./src/app/features/main/pages/index.ts"],
