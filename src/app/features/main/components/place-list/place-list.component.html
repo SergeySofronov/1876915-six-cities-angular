@@ -1,15 +1,13 @@
 <section class="cities__places places">
   <h2 class="visually-hidden">Places</h2>
   <b class="places__found">{{previewQuantity()}} {{'place' | pluralize:previewQuantity()}} to stay in {{cityName()}}</b>
-  <!-- <PlaceSort activeSortType={activeSortType} sortChangeHandler={(newSortType) => setSortType(newSortType)} /> -->
-  <div class="cities__places-list places__list tabs__content" data-testid="places-list">
-    <!-- {sortedPreviews.map((place) => (
-      <PlaceCard
-        key={`place-list-card-${place.id}`}
-        preview={place}
-        cardClassName='cities__card'
-        imageClassName='cities__image-wrapper'
-        mouseEventHandler={mouseEventHandler}
-      />))} -->
+
+  <app-place-sort [(activeSortType)]="activeSortType" />
+
+  <div class="cities__places-list places__list tabs__content">
+    @for(preview of sortedPreviews(); track preview.id) {
+    <app-place-card [preview]="preview" [cardClassName]="'cities__card'" [imageClassName]="'cities__image-wrapper'"
+      [mouseEventHandler]="handleMouseEvent" />
+    }
   </div>
 </section>

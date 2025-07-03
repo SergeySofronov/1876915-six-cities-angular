@@ -1,0 +1,10 @@
+<button class="button" type="button" (click)="handleClick()">
+  <svg
+    class="place-card__bookmark-icon"
+    [attr.width]="width()"
+    [attr.height]="height()"
+  >
+    <use xlink:href="#icon-bookmark"></use>
+  </svg>
+  <span class="visually-hidden">To bookmarks</span>
+</button>

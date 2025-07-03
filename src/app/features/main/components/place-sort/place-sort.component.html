@@ -1,1 +1,19 @@
-<p>place-sort works!</p>
+<form class="places__sorting" action="#" method="get">
+  <span class="places__sorting-caption">Sort by</span>
+  <span class="places__sorting-type" tabindex="0" (click)="handleOpenSelect($event)"
+    (keydown.enter)="handleOpenSelect($event)" (keydown.space)="handleOpenSelect($event)">
+    &nbsp;{{activeSortType()}}
+    <svg class="places__sorting-arrow" width="7" height="4">
+      <use xlink:href="#icon-arrow-select" />
+    </svg>
+  </span>
+  <ul class="places__options places__options--custom" [class.places__options--opened]="isSelectOpened()">
+    @for(type of sortTypes; track type) {
+    <li class="places__option" [class.places__option--active]="type[0] === activeSortType()"
+      [attr.data-sort-type]="type[0]" (click)="handleSelect($event)" (keydown.enter)="handleSelect($event)"
+      tabindex="0">
+      {{type[1]}}
+    </li>
+    }
+  </ul>
+</form>

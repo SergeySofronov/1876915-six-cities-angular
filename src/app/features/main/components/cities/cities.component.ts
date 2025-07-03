@@ -2,9 +2,9 @@ import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { getPlacePreviews } from 'src/app/mocks/previews';
 import { MapComponent } from '@shared/components';
-import { PlaceListComponent } from '@features/main/components';
 import { CitiesDefaults, DEFAULT_CITY } from '@app/const';
 import { PlacePreview } from '@core/models';
+import { PlaceListComponent } from '../place-list/place-list.component';
 
 @Component({
   selector: 'app-cities',

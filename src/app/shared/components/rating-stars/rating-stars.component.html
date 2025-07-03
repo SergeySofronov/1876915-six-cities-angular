@@ -1,0 +1,9 @@
+<div class="rating" [class]="this.className().rating">
+  <div class="rating__stars" [class]="this.className().stars">
+    <span [style]="{ width: percentValue() }"></span>
+    <span class="visually-hidden">Rating</span>
+  </div>
+  @if(shouldRatingShown()) {
+  <span class="rating__value" [class]="this.className().value">{{rating()}}</span>
+  }
+</div>

@@ -1,0 +1,30 @@
+<article [class]="cardClass()" (mouseenter)="this.handleMouseEnter()" (mouseleave)="this.handleMouseLeave()">
+
+  @if(this.isPremium()) {
+  <app-premium-label [className]="'place-card__mark'" />
+  }
+
+  <div [class]="imageClassName()">
+    <a [routerLink]="this.routerLink()">
+      <img [src]="this.preview().previewImage" [width]="this.imageWidth()" [height]="this.imageHeight()"
+        alt="Place image" />
+    </a>
+  </div>
+
+  <div class="place-card__info" data-testid="place-card-info">
+    <div class="place-card__price-wrapper">
+      <div class="place-card__price">
+        <b class="place-card__price-value">€{{this.preview().price}}</b>
+        <span class="place-card__price-text">&nbsp;/&nbsp;night</span>
+      </div>
+      <app-add-favorite-button class='place-card' [placeId]="this.preview().id" />
+    </div>
+
+    <app-rating-stars [rating]="this.preview().rating" [className]="{ rating: 'place-card__rating', stars: 'place-card__stars' }" />
+
+    <h2 class="place-card__name">
+      <a [routerLink]="this.routerLink()">{{this.preview().title}}</a>
+    </h2>
+    <p class="place-card__type">{{this.preview().type | capitalizeFirstLetter}}</p>
+  </div>
+</article>
