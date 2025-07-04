@@ -260,3 +260,4 @@ const places: Place[] = [
 ];
 
 export const getPlaces = (placeId: string) => places.find((place) => place.id === placeId);
+export const getFavoritePlaces = () => places.filter((place) => place.isFavorite);

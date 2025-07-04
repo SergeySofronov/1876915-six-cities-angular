@@ -1,1 +1,57 @@
-<p>favorites-page works!</p>
+<main class="page__main page__main--favorites" [class.page__main--favorites-empty]="!favorites.length">
+  <div class="page__favorites-container container">
+    @if (favorites.length) {
+    <ng-container *ngTemplateOutlet="favoritesList"></ng-container>
+    } @else {
+    <ng-container *ngTemplateOutlet="favoritesListEmpty"></ng-container>
+    }
+  </div>
+</main>
+
+<ng-template #favoritesListEmpty>
+  <section class="favorites favorites--empty">
+    <h1 class="visually-hidden">Favorites (empty)</h1>
+    <div class="favorites__status-wrapper">
+      <b class="favorites__status">Nothing yet saved.</b>
+      <p class="favorites__status-description">
+        Save properties to narrow down search or plan your future trips.
+      </p>
+    </div>
+  </section>
+</ng-template>
+
+<ng-template #favoritesList>
+  <section class="favorites">
+    <h1 class="favorites__title">Saved listing</h1>
+    <ul class="favorites__list">
+      @for (group of grouped; track group[0]) {
+      <ng-container [ngTemplateOutlet]="favoritesItem"
+        [ngTemplateOutletContext]="{ cityName: group[0], previews: group[1] }"></ng-container>
+      }
+    </ul>
+  </section>
+</ng-template>
+
+
+<ng-template #favoritesItem let-cityName="cityName" let-previews="previews">
+  <li class="favorites__locations-items">
+    <div class="favorites__locations locations locations--current">
+      <div class="locations__item">
+        <a class="locations__item-link" [routerLink]="routerLink">
+          <span>{{cityName}}</span>
+        </a>
+      </div>
+    </div>
+    <div class="favorites__places">
+      @for (preview of previews; track preview.id) {
+        <app-place-card
+          [preview]="preview"
+          [cardClassName]="'favorites__card'"
+          [imageClassName]="'favorites__image-wrapper'"
+          [imageWidth]="imageSettings.width"
+          [imageHeight]="imageSettings.height"
+        />
+      }
+    </div>
+  </li>
+</ng-template>
