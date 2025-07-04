@@ -12,13 +12,13 @@ import { getPlacePreviews } from 'src/app/mocks/previews';
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css',
   host: {
-    '[class]': 'pageClassName()',
+    '[class]': 'className()',
   }
 })
 export class LayoutComponent implements OnInit, OnDestroy {
 
-  public newPageClassName = signal<string>('');
-  public readonly pageClassName = computed<string>(() => `page ${this.newPageClassName()}`);
+  public pageClassName = signal<string>('');
+  public readonly className = computed<string>(() => `page ${this.pageClassName()}`);
   public isLogoActive = false;
   public shouldUserInfoRender = true;
   public shouldFooterRender = false;
@@ -44,27 +44,24 @@ export class LayoutComponent implements OnInit, OnDestroy {
       switch (url) {
         case AppRoute.Main:
           this.isLogoActive = true;
-          this.newPageClassName.set('page--gray page--main');
+          this.pageClassName.set('page--gray page--main');
           break;
 
         case AppRoute.Login:
           this.shouldUserInfoRender = false;
-          this.newPageClassName.set('page--gray page--login');
-          break;
-
-        case AppRoute.NotFound:
-          this.shouldUserInfoRender = false;
-          this.newPageClassName.set('page__main page__main--index page__main--index-empty not-found');
+          this.pageClassName.set('page--gray page--login');
           break;
 
         case AppRoute.Favorites:
           this.shouldFooterRender = true;
           if (this.favorites.length === 0) {
-            this.newPageClassName.set('page--favorites-empty');
+            this.pageClassName.set('page--favorites-empty');
           }
           break;
 
-        default: break;
+        default:
+          this.pageClassName.set('page--gray');
+          break;
       }
     });
   }
@@ -73,20 +70,3 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.urlChangeSubscription?.unsubscribe();
   }
 }
-
-
-/*
-page page--favorites-empty
-page
-page page--gray page--login
-page page--gray page--main
-page page--gray page--main
-page
-page
-
-
-
-
-
-
-*/
