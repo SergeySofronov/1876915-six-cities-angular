@@ -188,3 +188,4 @@ const previews: PlacePreview[] = [
 ];
 
 export const getPlacePreviews = () => previews;
+export const getNearbyPlacePreviews = (placeId: string) => previews.filter((preview) => preview.id !== placeId) ?? [];

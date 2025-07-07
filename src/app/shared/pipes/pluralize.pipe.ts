@@ -5,7 +5,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class PluralizePipe implements PipeTransform {
 
-  transform(word: string, count: number): string {
+  transform(word?: string, count?: number): string {
+    if (!word) {
+      return '';
+    }
+
+    if (!count) {
+      return word;
+    }
+
     return count === 1 ? word : `${word}s`;
   }
 }

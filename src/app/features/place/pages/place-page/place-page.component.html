@@ -1,1 +1,101 @@
-<p>place-page works!</p>
+<main class="page__main page__main--offer">
+  @if(shouldPlaceShown()) {
+  <section class="offer">
+    <ng-container *ngTemplateOutlet="offer; context: { place }"></ng-container>
+  </section>
+  } @else {
+  <app-spinner />
+  }
+
+  @if(shouldNearbyShown()) {
+  <div class="container">
+    <section class="near-places places">
+      <h2 class="near-places__title">
+        Other places in the neighbourhood
+      </h2>
+      <div class="near-places__list places__list">
+        @for(preview of nearbyPreviews; track preview.id) {
+        <app-place-card [preview]="preview" [cardClassName]="'near-places__card'" [imageClassName]="'near-places__image-wrapper'" />
+        }
+      </div>
+    </section>
+  </div>
+  }
+</main>
+
+<ng-template #offer let-place="place">
+  <section class="offer">
+    <ng-container *ngTemplateOutlet="gallery; context: { place }"></ng-container>
+    <div class="offer__container container">
+      <div class="offer__wrapper">
+        <app-premium-label class='offer__mark' />
+        <div class="offer__name-wrapper">
+          <h1 class="offer__name">{{place.title}}</h1>
+          <app-add-favorite-button [className]="'offer__bookmark-button'" [placeId]="place.id"
+            [width]="imageSettings.width" [height]="imageSettings.height" />
+        </div>
+        <app-rating-stars [rating]="place.rating"
+          [className]="{ rating: 'offer__rating', stars: 'offer__stars', value: 'offer__rating-value' }"
+          [shouldRatingShown]="true" />
+        <ng-container *ngTemplateOutlet="placeFeatures; context: { place }"></ng-container>
+        @if(shouldCommentsShown()){
+        <app-reviews [reviews]="comments" [placeId]="place.id" />
+        }@else{
+        <app-spinner />
+        }
+      </div>
+    </div>
+    <app-map [center]="center()" [markers]="markers()" [className]="'offer__map'" />
+  </section>
+</ng-template>
+
+<ng-template #gallery let-place="place">
+  <div class="offer__gallery-container container">
+    <div class="offer__gallery">
+      @for(url of place.images; track url; let i = $index) {
+      <div class="offer__image-wrapper">
+        <img class="offer__image" [src]="url" alt="Place photo #{{i}}" />
+      </div>
+      }
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #placeFeatures let-place="place">
+  <ul class="offer__features">
+    <li class="offer__feature offer__feature--entire">{{place.type | capitalizeFirstLetter}}</li>
+    <li class="offer__feature offer__feature--bedrooms">{{`${place.bedrooms} Bedroom` | pluralize: place.bedrooms}}
+    </li>
+    <li class="offer__feature offer__feature--adults">Max {{`${place.maxAdults}` | pluralize : place.maxAdults}}</li>
+  </ul>
+
+  <div class="offer__price">
+    <b class="offer__price-value">€{{place.price}}</b>
+    <span class="offer__price-text">&nbsp;night</span>
+  </div>
+
+  <div class="offer__inside">
+    <h2 class="offer__inside-title">What&apos;s inside</h2>
+    <ul class="offer__inside-list">
+      @for(item of place.goods; track item) {
+      <li class="offer__inside-item">{{item}}</li>
+      }
+    </ul>
+  </div>
+
+  <div class="offer__host">
+    <h2 class="offer__host-title">Meet the host</h2>
+    <div class="offer__host-user user">
+      <div class="offer__avatar-wrapper user__avatar-wrapper" [class.offer__avatar-wrapper--pro]="place.host.isPro">
+        <img class="offer__avatar user__avatar" [src]="place.host.avatarUrl" width="74" height="74" alt="Host avatar" />
+      </div>
+      <span class="offer__user-name">{{place.host.name}}</span>
+      @if(place.host.isPro) {
+      <span class="offer__user-status">Pro</span>
+      }
+    </div>
+    <div class="offer__description">
+      <p class="offer__text">{{place.description}}</p>
+    </div>
+  </div>
+</ng-template>

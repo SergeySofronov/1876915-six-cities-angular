@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { PlaceComment } from '@core/models';
 
 @Component({
   selector: 'app-reviews',
@@ -7,5 +8,6 @@ import { Component } from '@angular/core';
   styleUrl: './reviews.component.css'
 })
 export class ReviewsComponent {
-
+  public reviews = input<PlaceComment[]>([]);
+  public placeId = input<string>('');
 }

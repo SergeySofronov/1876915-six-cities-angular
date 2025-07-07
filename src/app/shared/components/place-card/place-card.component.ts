@@ -27,7 +27,7 @@ export class PlaceCardComponent {
   public imageHeight = input<number>(ImageDefault.DefaultHeight);
   public mouseEventHandler = input<((marker: MarkerType) => void) | null>(null);
 
-  public routerLink = computed<string[]>(() => [AppRoute.PlaceWithoutId, this.preview().id]);
+  public routerLink = computed<string[]>(() => ['/', AppRoute.PlaceWithoutId, this.preview().id]);
   public cardClass = computed(() => `place-card ${this.cardClassName()}`);
   public isPremium = computed(() => this.preview().isPremium);
 
