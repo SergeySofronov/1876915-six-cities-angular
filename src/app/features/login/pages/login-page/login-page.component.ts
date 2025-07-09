@@ -1,11 +1,13 @@
 import { Component, computed } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormsModule, Validators } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { CitiesDefaults, USER_PASSWORD_MAX_LENGTH as MAX, USER_PASSWORD_MIN_LENGTH as MIN } from '@app/const';
 
+//Disclaimer: Template-driven form used + manual form-field validation
+
 @Component({
   selector: 'app-login-page',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
@@ -16,5 +18,4 @@ export class LoginPageComponent {
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(MIN), Validators.maxLength(MAX), Validators.pattern(`^(?=.{${MIN},${MAX}}$)((\\d+)([a-zA-Z]+)|([a-zA-Z]+)(\\d+))`)]),
   });
-
 }

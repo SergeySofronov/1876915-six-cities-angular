@@ -1,5 +1,3 @@
-export const MIN_PLACE_RATING = 1;
-export const MAX_PLACE_RATING = 5;
 export const MAX_SHOWN_COMMENTS = 10;
 export const MAX_SHOWN_NEAR_PLACES = 3;
 export const ADDITIONAL_MARKERS_QUANTITY = 3;
@@ -10,7 +8,10 @@ export const USER_PASSWORD_MIN_LENGTH = 2;
 export const USER_PASSWORD_MAX_LENGTH = 20;
 export const USER_COMMENT_MIN_LENGTH = 50;
 export const USER_COMMENT_MAX_LENGTH = 300;
+
 export const RATING_GRADES = ['perfect', 'good', 'not bad', 'badly', 'terribly'] as const;
+export const MIN_PLACE_RATING = 1;
+export const MAX_PLACE_RATING = RATING_GRADES.length;
 
 export const LoginMessages = {
   InvalidEmail: 'Email should be like "your.email@example.com"',
