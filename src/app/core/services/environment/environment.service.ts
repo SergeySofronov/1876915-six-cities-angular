@@ -14,7 +14,14 @@ export const ENVIRONMENT = new InjectionToken<EnvironmentInterface>('environment
 export class EnvironmentService {
   private readonly environment = inject<EnvironmentInterface>(ENVIRONMENT, { optional: true });
 
-  getValue<T extends keyof EnvironmentInterface>(key: T): EnvironmentInterface[T] | undefined {
+  private getValue<T extends keyof EnvironmentInterface>(key: T): EnvironmentInterface[T] | undefined {
     return this.environment?.[key] as EnvironmentInterface[T] | undefined;
+  }
+
+  public get tokenKey() {
+    return this.getValue('tokenKey') ?? 'TOKEN';
+  }
+  public get apiUrl() {
+    return this.getValue('apiUrl') ?? 'https://15.design.htmlacademy.pro/six-cities/';
   }
 }

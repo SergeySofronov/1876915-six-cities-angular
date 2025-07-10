@@ -1,17 +1,24 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
-import { LoggedUser } from 'src/app/core/models';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AuthData, LoggedUser } from 'src/app/core/models';
+import { ApiRoute } from '@app/const';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  private readonly http = inject(HttpClient);
 
-  private readonly userSubject = new BehaviorSubject<LoggedUser | null>(null);
+  checkAuth(): Observable<LoggedUser> {
+    return this.http.get<LoggedUser>(`${ApiRoute.Login}`);
+  }
 
-  // Публичный user, asObservable не позволяет эмитить новые значения вне сервиса
-  public readonly user$ = this.userSubject.asObservable().pipe(distinctUntilChanged());
+  login(authData: AuthData): Observable<LoggedUser> {
+    return this.http.post<LoggedUser>(`${ApiRoute.Login}`, authData);
+  }
 
-  public isAuthorized$ = this.user$.pipe(map((user) => !!user));
+  logout(): Observable<void> {
+    return this.http.delete<void>(`${ApiRoute.Logout}`);
+  }
 }

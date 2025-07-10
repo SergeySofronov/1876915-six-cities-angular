@@ -1,38 +1,27 @@
 import { Component, inject, input, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AppRoute } from '@app/const';
-import { LoggedUser } from 'src/app/core/models';
-import { UserService } from '../../auth/services/user/user.service';
-import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectLoggedUser } from '../../auth/store/user.selectors';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-layout-header',
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
-  imports: [RouterLink],
+  imports: [RouterLink, AsyncPipe],
 })
-export class HeaderComponent implements OnDestroy {
+export class HeaderComponent {
   public readonly logoLink = AppRoute.Main;
   public readonly logoutLink = AppRoute.Login;
   public readonly favoriteLink = AppRoute.Favorites;
-  public user!: LoggedUser | null;
 
   public readonly isLogoActive = input.required<boolean>();
   public readonly shouldUserInfoRender = input.required<boolean>();
   public readonly favorites = input.required<unknown[]>();
 
-  private readonly userService = inject(UserService);
-  private readonly subscription!: Subscription;
-
-  constructor() {
-    this.subscription = this.userService.user$.subscribe((user) => {
-      this.user = user;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+  private readonly store = inject(Store);
+  public user$ = this.store.select(selectLoggedUser);
 
   logoClickHandler = (event: Event) => {
     if (this.isLogoActive()) {

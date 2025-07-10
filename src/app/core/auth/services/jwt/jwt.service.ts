@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { EnvironmentService } from '../../../services/environment/environment.service';
+import { EnvironmentService } from '@core/services';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JwtService {
-  private readonly tokenKey = inject(EnvironmentService).getValue('tokenKey') ?? 'TOKEN';
+  private readonly tokenKey = inject(EnvironmentService).tokenKey;
 
   getToken(): string {
     return localStorage.getItem(this.tokenKey) ?? '';
