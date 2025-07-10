@@ -14,8 +14,8 @@ export const MIN_PLACE_RATING = 1;
 export const MAX_PLACE_RATING = RATING_GRADES.length;
 
 export const LoginMessages = {
-  InvalidEmail: 'Email should be like "your.email@example.com"',
-  invalidPassword: `Password should contain only alphanumeric character with between ${USER_PASSWORD_MIN_LENGTH} and ${USER_PASSWORD_MAX_LENGTH} characters`,
+  InvalidEmail: `Email should be like 'your.email@example.com'`,
+  InvalidPassword: `Password should contain only alphanumeric character with between ${USER_PASSWORD_MIN_LENGTH} and ${USER_PASSWORD_MAX_LENGTH} characters`,
 } as const;
 
 export const CitiesDefaults = [

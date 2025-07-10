@@ -3,7 +3,7 @@
   <div class="reviews__rating-form form__rating">
     @for(grade of ratingGrades; track grade; let i = $index) {
     <input class="form__rating-input visually-hidden" type="radio" [value]="ratingValues[i]" [id]="`${grade}-star`"
-      [formControl]="reviewForm.controls.rating" />
+    formControlName="rating" />
     <label class="reviews__rating-label form__rating-label" [title]="grade" [for]="`${grade}-star`">
       <svg class="form__star-image" width="37" height="33">
         <use xlink:href="#icon-star" />
@@ -11,7 +11,7 @@
     </label>
     }
   </div>
-  <textarea class="reviews__textarea form__textarea" id="review" [formControl]="reviewForm.controls.review"
+  <textarea class="reviews__textarea form__textarea" id="review" formControlName="review"
     placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
   <div class="reviews__button-wrapper">
     <p class="reviews__help">
@@ -20,7 +20,7 @@
       <b class="reviews__text-amount">{{ minTextLength }} characters</b>.
     </p>
     <button class="reviews__submit form__submit button" type="submit" [disabled]="reviewForm.invalid || isSubmitting">
-      {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+      {{ isSubmitting() ? 'Submitting...' : 'Submit' }}
     </button>
   </div>
 </form>
