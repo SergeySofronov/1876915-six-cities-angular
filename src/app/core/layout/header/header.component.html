@@ -16,13 +16,13 @@
               (click)="emailClickHandler()">
 
               <div class="header__avatar-wrapper user__avatar-wrapper">
-                @if (user) {
+                @if (user$ | async) {
                 <img src={user.avatarUrl} alt="User avatar">
                 }
               </div>
 
-              @if (user) {
-              <span class="header__user-name user__name">{{user.email}}</span>
+              @if (user$ | async) {
+              <span class="header__user-name user__name">{{(user$ | async)?.email}}</span>
               <span class="header__favorite-count">{{favorites().length}}</span>
               } @else {
               <span class="header__login">Sign in</span>
@@ -30,7 +30,7 @@
 
             </a>
           </li>
-          @if (user) {
+          @if (user$ | async) {
           <li class="header__nav-item">
             <a class="header__nav-link" [routerLink]="logoutLink" (click)="logoutHandler()">
               <span class="header__signout">Sign out</span>
