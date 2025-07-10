@@ -1,13 +1,14 @@
 
 import { AfterViewInit, ChangeDetectionStrategy, Component, computed, signal, viewChild } from '@angular/core';
 import { AbstractControl, FormsModule, NgForm, ValidatorFn, Validators } from '@angular/forms';
-import { CitiesDefaults, LoginMessages, USER_PASSWORD_MAX_LENGTH as MAX, USER_PASSWORD_MIN_LENGTH as MIN } from '@app/const';
+import { AppRoute, CitiesDefaults, LoginMessages, USER_PASSWORD_MAX_LENGTH as MAX, USER_PASSWORD_MIN_LENGTH as MIN } from '@app/const';
+import { RouterLink } from '@angular/router';
 
 //Disclaimer: Template-driven form used + manual form-field validation
 
 @Component({
   selector: 'app-login-page',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,6 +17,7 @@ export class LoginPageComponent implements AfterViewInit {
   public cityName = computed(() => CitiesDefaults[Math.round(Math.random() * (CitiesDefaults.length - 1))].name);
   public isSubmitting = signal(false);
   public errorMessages = LoginMessages;
+  public routerLink = AppRoute.Main;
 
   private readonly form = viewChild<NgForm>('loginForm');
 

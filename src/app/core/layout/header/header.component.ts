@@ -1,4 +1,4 @@
-import { Component, inject, input, OnDestroy } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AppRoute } from '@app/const';
 import { Store } from '@ngrx/store';

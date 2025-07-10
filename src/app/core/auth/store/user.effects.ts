@@ -1,18 +1,18 @@
-
-
-
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { userActions } from './user.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user/user.service';
+import { HistoryService } from '@shared/services';
+import { ApiRoute } from '@app/const';
 
 @Injectable()
 export class UserEffects {
   private actions$ = inject(Actions);
   private userService = inject(UserService);
   private router = inject(Router);
+  private readonly historyService = inject(HistoryService);
 
   checkAuth$ = createEffect(() =>
     this.actions$.pipe(
@@ -43,7 +43,7 @@ export class UserEffects {
       this.actions$.pipe(
         ofType(userActions.loginSuccess),
         tap(() => {
-          this.router.navigate(['/']);
+          this.historyService.back();
         })
       ),
     { dispatch: false }
@@ -66,7 +66,7 @@ export class UserEffects {
       this.actions$.pipe(
         ofType(userActions.logoutSuccess),
         tap(() => {
-          this.router.navigate(['/login']);
+          this.router.navigate([ApiRoute.Login]);
         })
       ),
     { dispatch: false }

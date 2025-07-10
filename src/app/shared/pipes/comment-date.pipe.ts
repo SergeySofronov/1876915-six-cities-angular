@@ -12,11 +12,12 @@ export class CommentDatePipe implements PipeTransform {
     const humanMonth = MONTH_NAMES[month];
     const dayNumber = date.getDay();
     const day = dayNumber < 10 ? `0${dayNumber}` : `${dayNumber}`;
+    const year = date.getFullYear();
 
     if (isFullDate) {
-      return `${day}-${month}-${date.getFullYear()}`;
+      return `${day}-${month}-${year}`;
     }
 
-    return `${humanMonth} ${date.getFullYear()}`;
+    return `${humanMonth} ${year}`;
   }
 }
