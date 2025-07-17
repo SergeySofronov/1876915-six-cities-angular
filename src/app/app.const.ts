@@ -120,8 +120,10 @@ export const KeyCode = {
 
 export enum SliceNameSpace {
   Comments = 'Comments',
+  Nearby = 'Nearby',
   Favorites = 'Favorites',
   Marker = 'Marker',
   Place = 'Place',
+  Previews = 'Previews',
   User = 'User'
 }

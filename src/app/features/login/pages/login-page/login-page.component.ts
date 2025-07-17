@@ -1,8 +1,13 @@
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, computed, signal, viewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { AbstractControl, FormsModule, NgForm, ValidatorFn, Validators } from '@angular/forms';
 import { AppRoute, CitiesDefaults, LoginMessages, USER_PASSWORD_MAX_LENGTH as MAX, USER_PASSWORD_MIN_LENGTH as MIN } from '@app/const';
 import { RouterLink } from '@angular/router';
+import { userActions } from '@core/auth/store';
+import { Store } from '@ngrx/store';
+import { selectIsUserLoading, selectIsUserLoggedIn } from 'src/app/core/auth/store/user/user.selectors';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { HistoryService } from '@shared/services';
 
 //Disclaimer: Template-driven form used + manual form-field validation
 
@@ -19,7 +24,28 @@ export class LoginPageComponent implements AfterViewInit {
   public errorMessages = LoginMessages;
   public routerLink = AppRoute.Main;
 
+  private readonly store = inject(Store);
+  private readonly history = inject(HistoryService);
+
   private readonly form = viewChild<NgForm>('loginForm');
+  private readonly isUserLoggedIn = toSignal(this.store.select(selectIsUserLoggedIn), { initialValue: false });
+  private readonly isUserLoading = toSignal(this.store.select(selectIsUserLoading), { initialValue: false });
+
+  constructor() {
+
+    effect(() => {
+      if (this.isUserLoggedIn()) {
+        this.history.back();
+      }
+    });
+
+    effect(() => {
+      if (this.isUserLoading()) {
+        this.isSubmitting.set(true);
+      }
+    });
+  }
+
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -39,6 +65,7 @@ export class LoginPageComponent implements AfterViewInit {
 
   public handleSubmit(loginForm: NgForm) {
     console.log(loginForm.value);
+    this.store.dispatch(userActions.login({ authData: loginForm.value }));
     loginForm.reset();
   }
 

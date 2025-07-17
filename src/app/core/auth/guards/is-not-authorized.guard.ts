@@ -4,7 +4,7 @@ import { HistoryService } from '@shared/services';
 import { AppRoute } from '@app/const';
 import { map, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectIsUserLoggedIn } from '@core/auth/selectors';
+import { selectIsUserLoggedIn } from 'src/app/core/auth/store/user/user.selectors';
 
 export const isNotAuthorizedGuardFn: CanActivateFn = (_: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const store = inject(Store);
