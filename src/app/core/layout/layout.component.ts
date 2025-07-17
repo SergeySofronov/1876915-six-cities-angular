@@ -4,7 +4,9 @@ import { filter, Subscription } from 'rxjs';
 import { AppRoute } from '@app/const';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { getPlacePreviews } from 'src/app/mocks/previews';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Store } from '@ngrx/store';
+import { selectFavorites } from '@features/favorites/selectors';
 
 @Component({
   selector: 'app-layout',
@@ -22,7 +24,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
   public isLogoActive = false;
   public shouldUserInfoRender = true;
   public shouldFooterRender = false;
-  public readonly favorites = getPlacePreviews().slice(0, 1); //!!! store service
+
+  private readonly store = inject(Store);
+  public readonly favorites = toSignal(this.store.select(selectFavorites), { initialValue: [] });
 
   private readonly router = inject(Router);
   private urlChangeSubscription?: Subscription;
@@ -36,12 +40,14 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
       const indexOfQuery = event.url.indexOf('?');
       const url = event.url.slice(1, indexOfQuery === -1 ? undefined : indexOfQuery);
+      const indexOfSlash = url.indexOf('/');
+      const urlWithoutSlash = url.slice(0, indexOfSlash);
 
       this.isLogoActive = false;
       this.shouldUserInfoRender = true;
       this.shouldFooterRender = false;
 
-      switch (url) {
+      switch (urlWithoutSlash) {
         case AppRoute.Main:
           this.isLogoActive = true;
           this.pageClassName.set('page--gray page--main');
@@ -57,6 +63,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
           if (this.favorites.length === 0) {
             this.pageClassName.set('page--favorites-empty');
           }
+          break;
+
+        case AppRoute.PlaceWithoutId:
           break;
 
         default:

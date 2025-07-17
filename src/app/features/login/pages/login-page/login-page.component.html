@@ -2,21 +2,29 @@
   <div class="page__login-container container">
     <section class="login">
       <h1 class="login__title">Sign in</h1>
-      <form class="login__form form" action="#" method="post">
+      <form class="login__form form" action="#" method="post" #loginForm="ngForm" (ngSubmit)="handleSubmit(loginForm)">
         <div class="login__input-wrapper form__input-wrapper">
           <label class="visually-hidden" for="email-input">E-mail</label>
-          <input id="email-input" class="login__input form__input" type="email" name="email" placeholder="Email" required="">
+          <input [(ngModel)]="email" #email="ngModel" id="email-input"
+            class="login__input form__input" type="email" name="email" placeholder="Email" required>
         </div>
+        @if(email.touched && email.invalid) {
+        <p class="form__error">{{ email.errors?.['message'] }}</p>
+        }
         <div class="login__input-wrapper form__input-wrapper">
           <label class="visually-hidden" for="password-input">Password</label>
-          <input id="password-input" class="login__input form__input" type="password" name="password" placeholder="Password" required="">
+          <input [(ngModel)]="password" #password="ngModel" id="password-input"
+            class="login__input form__input" type="password" name="password" placeholder="Password" required>
         </div>
-        <button class="login__submit form__submit button" type="submit">Sign in</button>
+        @if(password.touched && password.invalid) {
+        <p class="form__error">{{ password.errors?.['message'] }}</p>
+        }
+        <button class="login__submit form__submit button" type="submit" [disabled]="loginForm.form.invalid || isSubmitting()">{{ isSubmitting() ? 'Loading...' : 'Sign in'}}</button>
       </form>
     </section>
     <section class="locations locations--login locations--current">
       <div class="locations__item">
-        <a class="locations__item-link" href="#">
+        <a class="locations__item-link" [routerLink]="[routerLink]" [queryParams]="{ city: cityName() }">
           <span>{{ cityName() }}</span>
         </a>
       </div>

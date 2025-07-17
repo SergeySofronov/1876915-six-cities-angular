@@ -1,1 +1,29 @@
-<p>reviews works!</p>
+<section class="offer__reviews reviews">
+  <h2 class="reviews__title">
+    Reviews · <span class="reviews__amount">{{sortedReviews().length}}</span>
+  </h2>
+
+  @for(review of sortedReviews(); track review.id) {
+  <ul class="reviews__list">
+    <li class="reviews__item">
+      <div class="reviews__user user">
+        <div class="reviews__avatar-wrapper user__avatar-wrapper">
+          <img class="reviews__avatar user__avatar" [src]="review.user.avatarUrl" width="54" height="54"
+            alt="Reviews avatar" />
+        </div>
+        <span class="reviews__user-name">{{review.user.name}}</span>
+      </div>
+      <div class="reviews__info">
+        <app-rating-stars [rating]="review.rating" [className]="{rating: 'reviews__rating', stars: 'reviews__stars'}" />
+        <p class="reviews__text">{{review.comment}}</p>
+        <time class="reviews__time" [dateTime]="review.date | commentDate: true">{{review.date | commentDate}}</time>
+      </div>
+    </li>
+  </ul>
+  }
+
+  @if(isAuthorized) {
+    <app-review-form />
+  }
+
+</section>
