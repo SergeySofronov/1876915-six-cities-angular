@@ -22,8 +22,8 @@
   </ul>
   }
 
-  @if(isAuthorized) {
-    <app-review-form />
+  @if(isUserLoggedIn()) {
+    <app-review-form [placeId]="placeId()" />
   }
 
 </section>

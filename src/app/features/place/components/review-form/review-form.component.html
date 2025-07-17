@@ -19,7 +19,7 @@
       <span class="reviews__star">rating</span> and describe your stay with at least
       <b class="reviews__text-amount">{{ minTextLength }} characters</b>.
     </p>
-    <button class="reviews__submit form__submit button" type="submit" [disabled]="reviewForm.invalid || isSubmitting">
+    <button class="reviews__submit form__submit button" type="submit" [disabled]="reviewForm.invalid || isSubmitting()">
       {{ isSubmitting() ? 'Submitting...' : 'Submit' }}
     </button>
   </div>

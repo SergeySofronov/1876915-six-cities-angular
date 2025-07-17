@@ -1,3 +1,4 @@
+import { MAX_SHOWN_NEAR_PLACES } from '@app/const';
 import { PlacePreview, HousingType } from 'src/app/core/models';
 
 const previews: PlacePreview[] = [
@@ -188,4 +189,5 @@ const previews: PlacePreview[] = [
 ];
 
 export const getPlacePreviews = () => previews;
-export const getNearbyPlacePreviews = (placeId: string) => previews.filter((preview) => preview.id !== placeId) ?? [];
+export const getNearbyPlacePreviews = (placeId: string) => (previews.filter((preview) => preview.id !== placeId) ?? []).slice(0, MAX_SHOWN_NEAR_PLACES);
+export const getFavoritePlacePreviews = () => previews.filter((preview) => preview.isFavorite) ?? [];

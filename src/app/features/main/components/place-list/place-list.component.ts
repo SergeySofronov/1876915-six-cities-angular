@@ -1,9 +1,11 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { SortType } from '@app/const';
 import { MarkerType, PlacePreview, PlaceSortType } from '@core/models';
 import { PlaceCardComponent } from '@shared/components';
 import { PluralizePipe } from '@shared/pipes';
 import { PlaceSortComponent } from '../place-sort/place-sort.component';
+import { markerActions } from '@core/auth/store';
+import { Store } from '@ngrx/store';
 
 const sortByPriceIncrease = (first: PlacePreview, second: PlacePreview) => second.price - first.price;
 const sortByPriceDecrease = (first: PlacePreview, second: PlacePreview) => first.price - second.price;
@@ -18,7 +20,6 @@ const sort: Record<string, (preview: PlacePreview[]) => PlacePreview[]> = {
 
 const sortPreview = (preview: PlacePreview[], sortType: PlaceSortType) => (sort[SortType[sortType]])(preview);
 
-
 @Component({
   selector: 'app-place-list',
   imports: [PluralizePipe, PlaceCardComponent, PlaceSortComponent],
@@ -26,6 +27,8 @@ const sortPreview = (preview: PlacePreview[], sortType: PlaceSortType) => (sort[
   styleUrl: './place-list.component.css'
 })
 export class PlaceListComponent {
+  private readonly store = inject(Store);
+
   public previews = input.required<PlacePreview[]>();
   public cityName = input.required<string>();
 
@@ -35,7 +38,7 @@ export class PlaceListComponent {
   public previewQuantity = computed(() => this.sortedPreviews().length);
 
   public handleMouseEvent = (marker: MarkerType) => {
-    console.log(marker);
+    this.store.dispatch(markerActions.setActiveMarker({ marker }));
   };
 }
 

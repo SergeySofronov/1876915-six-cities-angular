@@ -10,6 +10,6 @@ export class NearbyService {
   private readonly http = inject(HttpClient);
 
   public getNearby(id: string) {
-    return this.http.get<PlacePreview[]>(`${ApiRoute.Nearby}/${id}`);
+    return this.http.get<PlacePreview[]>(`${ApiRoute.Previews}/${id}${ApiRoute.Nearby}`);
   }
 }

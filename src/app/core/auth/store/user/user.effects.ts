@@ -3,19 +3,21 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { userActions } from './user.actions';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { UserService } from '../services/user/user.service';
+import { UserService } from '../../services/user/user.service';
 import { HistoryService } from '@shared/services';
 import { ApiRoute } from '@app/const';
+import { JwtService } from '../../services';
 
 @Injectable()
 export class UserEffects {
   private actions$ = inject(Actions);
   private userService = inject(UserService);
+  private jwtService = inject(JwtService);
   private router = inject(Router);
   private readonly historyService = inject(HistoryService);
 
-  checkAuth$ = createEffect(() =>
-    this.actions$.pipe(
+  checkAuth$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(userActions.checkAuth),
       switchMap(() =>
         this.userService.checkAuth().pipe(
@@ -24,10 +26,11 @@ export class UserEffects {
         )
       )
     )
+  }
   );
 
-  login$ = createEffect(() =>
-    this.actions$.pipe(
+  login$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(userActions.login),
       switchMap(({ authData }) =>
         this.userService.login(authData).pipe(
@@ -36,21 +39,36 @@ export class UserEffects {
         )
       )
     )
+  }
   );
 
   loginSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(userActions.loginSuccess),
-        tap(() => {
+        tap(({ user }) => {
+          this.jwtService.saveToken(user.token);
           this.historyService.back();
         })
-      ),
+      )
+    },
     { dispatch: false }
   );
 
-  logout$ = createEffect(() =>
-    this.actions$.pipe(
+  loginFailure$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(userActions.loginFailure),
+        tap(() => {
+          this.jwtService.dropToken();
+        })
+      )
+    },
+    { dispatch: false }
+  );
+
+  logout$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(userActions.logout),
       switchMap(() =>
         this.userService.logout().pipe(
@@ -59,16 +77,19 @@ export class UserEffects {
         )
       )
     )
+  }
   );
 
   logoutSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(userActions.logoutSuccess),
         tap(() => {
+          this.jwtService.dropToken();
           this.router.navigate([ApiRoute.Login]);
         })
-      ),
+      )
+    },
     { dispatch: false }
   );
 }

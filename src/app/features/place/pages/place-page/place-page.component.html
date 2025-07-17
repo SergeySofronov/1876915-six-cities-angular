@@ -1,7 +1,7 @@
 <main class="page__main page__main--offer">
   @if(shouldPlaceShown()) {
   <section class="offer">
-    <ng-container *ngTemplateOutlet="offer; context: { place }"></ng-container>
+    <ng-container *ngTemplateOutlet="offer; context: { place: place() }"></ng-container>
   </section>
   } @else {
   <app-spinner />
@@ -14,7 +14,7 @@
         Other places in the neighbourhood
       </h2>
       <div class="near-places__list places__list">
-        @for(preview of nearbyPreviews; track preview.id) {
+        @for(preview of nearbyPreviews(); track preview.id) {
         <app-place-card [preview]="preview" [cardClassName]="'near-places__card'" [imageClassName]="'near-places__image-wrapper'" />
         }
       </div>
@@ -39,13 +39,13 @@
           [shouldRatingShown]="true" />
         <ng-container *ngTemplateOutlet="placeFeatures; context: { place }"></ng-container>
         @if(shouldCommentsShown()){
-        <app-reviews [reviews]="comments" [placeId]="place.id" />
+        <app-reviews [reviews]="comments()" [placeId]="place.id" />
         }@else{
         <app-spinner />
         }
       </div>
     </div>
-    <app-map [center]="center()" [markers]="markers()" [className]="'offer__map'" />
+    <app-map [markers]="markers()" [className]="'offer__map'" />
   </section>
 </ng-template>
 
