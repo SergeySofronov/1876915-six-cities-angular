@@ -1,8 +1,9 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, OnInit, signal, OnDestroy } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { DEFAULT_CITY, ImageDefault, MAX_SHOWN_NEAR_PLACES } from '@app/const';
-import { MarkerType, Place, PlaceComment, PlacePreview } from '@core/models';
+import { DEFAULT_CITY, ImageDefault } from '@app/const';
+import { MarkerType } from '@core/models';
 import { getComments } from 'src/app/mocks/comments';
 import { getPlaceById } from 'src/app/mocks/places';
 import { getNearbyPlacePreviews } from 'src/app/mocks/previews';
@@ -10,6 +11,10 @@ import { HistoryService } from '@shared/services';
 import { CapitalizeFirstLetterPipe, PluralizePipe } from '@shared/pipes';
 import { AddFavoriteButtonComponent, MapComponent, PlaceCardComponent, PremiumLabelComponent, RatingStarsComponent, SpinnerComponent } from '@shared/components';
 import { ReviewsComponent } from '../../components';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { commentActions, nearbyActions, placeActions, selectComments, selectCommentsLoading, selectNearbyLoading, selectNearbyPlaces, selectPlaceById, selectPlaceError, selectPlaceLoading } from '@features/place/store';
+import { Subscription } from 'rxjs';
+import { markerActions } from '@core/auth/store';
 
 @Component({
   selector: 'app-place-page',
@@ -26,33 +31,73 @@ import { ReviewsComponent } from '../../components';
     PlaceCardComponent
   ],
   templateUrl: './place-page.component.html',
-  styleUrl: './place-page.component.css'
+  styleUrl: './place-page.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlacePageComponent implements OnInit {
-  public placeId = '';
-  public place: Place | null = null; // !!! store + service
-  public nearbyPreviews: PlacePreview[] = []; // !!! store + service
-  public comments: PlaceComment[] = []; // !!! store + service
+export class PlacePageComponent implements OnInit, OnDestroy {
+  private readonly store = inject(Store);
+  private readonly subscription = new Subscription();
+
   public imageSettings = { width: ImageDefault.OfferBookmarkIconWidth, height: ImageDefault.OfferBookmarkIconHeight };
 
-  public center = computed(() => this.place ? ({ id: this.place.id, ...this.place.location, zoom: this.place.city.location.zoom }) : DEFAULT_CITY);
-  public markers = computed(() => this.nearbyPreviews.map((item) => ({ id: item.id, ...item.location }) as MarkerType).concat(this.center()));
+  public placeId = signal('');
+  public place = toSignal(this.store.select(selectPlaceById(this.placeId)), { initialValue: getPlaceById(this.placeId()) });
+  public nearbyPreviews = toSignal(this.store.select(selectNearbyPlaces), { initialValue: getNearbyPlacePreviews(this.placeId()) });
+  public comments = toSignal(this.store.select(selectComments), { initialValue: getComments() });
 
-  public shouldPlaceShown = computed(() => !!(this.place && (this.place?.id === this.placeId)));
-  public shouldNearbyShown = computed(() => !!(this.shouldPlaceShown() && (this.nearbyPreviews.length > 0) /*&& (nearbyStatus === RequestStatus.Fulfilled)*/)); //!!! store
-  public shouldCommentsShown = computed(() => !!(this.shouldPlaceShown() && (this.comments.length > 0) /*&& (commentsStatus === RequestStatus.Fulfilled)*/)); //!!! store
+  public commentsLoading = toSignal(this.store.select(selectCommentsLoading), { initialValue: true });
+  public nearbyLoading = toSignal(this.store.select(selectNearbyLoading), { initialValue: true });
+  public placeLoading = toSignal(this.store.select(selectPlaceLoading), { initialValue: true });
+
+  private error = toSignal(this.store.select(selectPlaceError), { initialValue: null });
+
+  public center = computed(() => {
+    const place = this.place();
+    if (!place) {
+      return DEFAULT_CITY;
+    }
+
+    return { id: place.id, ...place.location, zoom: place.city.location.zoom };
+  });
+
+  public markers = computed(() => this.nearbyPreviews().map((item) => ({ id: item.id, ...item.location }) as MarkerType).concat(this.center()));
+
+  public shouldPlaceShown = computed(() => !!(this.place()?.id === this.placeId()) && (!this.placeLoading()) && (!this.error()));
+  public shouldNearbyShown = computed(() => !!(this.shouldPlaceShown() && (this.nearbyPreviews().length > 0) && (!this.nearbyLoading())));
+  public shouldCommentsShown = computed(() => !!(this.shouldPlaceShown() && (this.comments().length > 0) && (!this.commentsLoading())));
 
   private readonly route = inject(ActivatedRoute);
   private readonly historyService = inject(HistoryService);
 
-  ngOnInit(): void {
-    this.placeId = this.route.snapshot.params['id'];
-    this.place = getPlaceById(this.placeId);
-    this.nearbyPreviews = getNearbyPlacePreviews(this.placeId).slice(0, MAX_SHOWN_NEAR_PLACES);
-    this.comments = getComments();
+  constructor() {
+    effect(() => {
+      if (this.shouldPlaceShown()) {
+        this.store.dispatch(markerActions.setActiveMarker({ marker: this.center() }));
+      }
 
-    if (!this.shouldPlaceShown()) {
-      this.historyService.back(); //если нет данных, то возвращаемся на предыдущую страницу или на главную
-    }
+      if (this.error() || !this.placeId()) {
+        this.historyService.back();
+      }
+    });
+  }
+
+  ngOnInit(): void {
+
+    this.subscription.add(this.route.params.subscribe((params) => {
+      const id = params['id'];
+
+      if ((this.placeId() === id) || (this.place()?.id === id)) {
+        return;
+      }
+
+      this.placeId.set(id);
+      this.store.dispatch(placeActions.loadPlace({ id }));
+      this.store.dispatch(nearbyActions.loadNearby({ id }));
+      this.store.dispatch(commentActions.loadComments({ id }));
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { LayoutComponent } from '@core/layout';
+import { userActions } from '@core/auth/store';
 
 import './polyfills';
 
@@ -9,4 +11,10 @@ import './polyfills';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {}
+export class AppComponent implements OnInit {
+  private store = inject(Store);
+
+  ngOnInit(): void {
+    this.store.dispatch(userActions.checkAuth());
+  }
+}

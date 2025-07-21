@@ -2,9 +2,10 @@ import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { getPlacePreviews } from 'src/app/mocks/previews';
 import { MapComponent } from '@shared/components';
-import { CitiesDefaults, DEFAULT_CITY } from '@app/const';
-import { PlacePreview } from '@core/models';
 import { PlaceListComponent } from '../place-list/place-list.component';
+import { Store } from '@ngrx/store';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { previewsActions, selectPreviews } from '@features/main/store';
 
 @Component({
   selector: 'app-cities',
@@ -16,29 +17,23 @@ import { PlaceListComponent } from '../place-list/place-list.component';
   }
 })
 export class CitiesComponent implements OnInit {
-  private activatedRoute = inject(ActivatedRoute);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly store = inject(Store);
 
-  public previews = signal<PlacePreview[]>(getPlacePreviews());//!!! replace to place store state
+  public previews = toSignal(this.store.select(selectPreviews), { initialValue: getPlacePreviews() });
   public cityName = signal<string>('');
 
   public filteredPreviews = computed(() => this.previews().filter((item) => item.city.name === this.cityName()));
-  public isPreviewsEmpty = computed(() => !this.filteredPreviews().length);
+  public shouldPreviewRender = computed(() => this.filteredPreviews().length > 0);
   public markers = computed(() => this.filteredPreviews().map((item) => ({ id: item.id, ...item.location })));
-  public center = computed(() => this.getCityLocation(this.cityName(), this.previews()));
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.cityName.set(params['city'] || '');
     });
-  }
 
-  getCityLocation = (cityName: string, previews: PlacePreview[]) => {
-    const existPreview = previews.find((item) => item.city.name === cityName);
-
-    if (existPreview) {
-      return existPreview.city.location;
+    if (this.previews().length === 0) {
+      this.store.dispatch(previewsActions.loadPreviews());
     }
-
-    return CitiesDefaults.find((item) => item.name === cityName) || DEFAULT_CITY;
-  };
+  }
 }

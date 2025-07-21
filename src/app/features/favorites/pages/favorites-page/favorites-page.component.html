@@ -1,4 +1,4 @@
-<main class="page__main page__main--favorites" [class.page__main--favorites-empty]="!favorites.length">
+<main class="page__main page__main--favorites" [class.page__main--favorites-empty]="!favorites().length">
   <div class="page__favorites-container container">
     @if (favorites.length) {
     <ng-container *ngTemplateOutlet="favoritesList"></ng-container>
