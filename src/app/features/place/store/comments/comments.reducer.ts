@@ -32,6 +32,22 @@ export const commentsReducer = createReducer(
     ...state,
     isLoading: false,
     error
+  })),
+  on(commentActions.addComment, (state): CommentsState => ({
+    ...state,
+    isLoading: true,
+    error: null
+  })),
+  on(commentActions.addCommentSuccess, (state, { comment }): CommentsState => ({
+    ...state,
+    comments: [comment, ...state.comments],
+    isLoading: false,
+    error: null
+  })),
+  on(commentActions.addCommentFailure, (state, { error }): CommentsState => ({
+    ...state,
+    isLoading: false,
+    error
   }))
 );
 

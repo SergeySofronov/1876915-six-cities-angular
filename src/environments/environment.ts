@@ -4,4 +4,5 @@ export const environment: EnvironmentInterface = {
   apiUrl: '',
   production: true,
   tokenKey: 'TOKEN',
+  apiTimeout: 5000,
 };

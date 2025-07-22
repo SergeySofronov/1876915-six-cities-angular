@@ -2,6 +2,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { FavoritesState } from './favorites.reducer';
 import { SliceNameSpace } from '@app/const';
+import { Signal } from '@angular/core';
 
 // Feature selector
 export const selectFavoritesState = createFeatureSelector<FavoritesState>(SliceNameSpace.Favorites);
@@ -21,9 +22,9 @@ export const selectFavoritesError = createSelector(
   (state) => state.error
 );
 
-export const selectIsFavorite = (placeId: string) => createSelector(
+export const selectIsFavorite = (placeId: Signal<string>) => createSelector(
   selectFavorites,
-  (favorites) => favorites.some((favorite) => favorite.id === placeId)
+  (favorites) => favorites.some((favorite) => favorite.id === placeId())
 );
 
 export const selectPlaceFavoriteLoading = (placeId: string) => createSelector(

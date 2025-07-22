@@ -1,9 +1,9 @@
-<div class="cities__places-container container" [class.cities__places-container--empty]="isPreviewsEmpty()"
-  [class.page__main--index-empty]="isPreviewsEmpty()">
-  @if(!isPreviewsEmpty()) {
+<div class="cities__places-container container" [class.cities__places-container--empty]="shouldPreviewRender()"
+  [class.page__main--index-empty]="shouldPreviewRender()">
+  @if(shouldPreviewRender()) {
   <app-place-list [previews]="filteredPreviews()" [cityName]="cityName()" />
   <div class="cities__right-section">
-    <app-map [markers]="markers()" [className]="'cities__map'" [center]="center()" />
+    <app-map [markers]="markers()" [className]="'cities__map'" />
   </div>
   } @else {
   <section class="cities__no-places">

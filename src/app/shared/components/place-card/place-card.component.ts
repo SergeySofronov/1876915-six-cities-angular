@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { AppRoute, ImageDefault } from '@app/const';
 import { MarkerType, PlacePreview } from '@core/models';
 import { RouterLink } from '@angular/router';
@@ -17,7 +17,8 @@ import { RatingStarsComponent } from '../rating-stars/rating-stars.component';
     RatingStarsComponent,
   ],
   templateUrl: './place-card.component.html',
-  styleUrl: './place-card.component.css'
+  styleUrl: './place-card.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlaceCardComponent {
   public preview = input.required<PlacePreview>();

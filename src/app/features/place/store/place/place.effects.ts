@@ -19,8 +19,5 @@ export class PlaceEffects {
         )
       )
     )
-  }
-  );
-
-
+  });
 }

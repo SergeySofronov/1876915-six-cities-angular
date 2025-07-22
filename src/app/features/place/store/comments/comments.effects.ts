@@ -21,4 +21,14 @@ export class CommentEffects {
     )
   }
   );
+
+  addComment$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(commentActions.addComment),
+      switchMap(({ comment }) => this.commentService.addComment(comment).pipe(
+        map((comment) => commentActions.addCommentSuccess({ comment })),
+        catchError((error) => of(commentActions.addCommentFailure({ error })))
+      ))
+    )
+  })
 }

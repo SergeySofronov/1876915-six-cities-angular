@@ -1,6 +1,3 @@
-
-
-
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { ChangeFavoritesResponse, PlacePreview } from '@core/models';
 import { SliceNameSpace } from '@app/const';
@@ -17,7 +14,7 @@ export enum FavoritesEvents {
 }
 
 export const favoritesActions = createActionGroup({
-  source: `${SliceNameSpace.Favorites}`,
+  source: SliceNameSpace.Favorites,
   events: {
     [FavoritesEvents.LoadFavorites]: emptyProps(),
     [FavoritesEvents.LoadFavoritesSuccess]: props<{ favorites: PlacePreview[] }>(),

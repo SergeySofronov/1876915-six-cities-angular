@@ -1,12 +1,19 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { createActionGroup, props } from '@ngrx/store';
 import { Place } from '@core/models';
+import { SliceNameSpace } from '@app/const';
+
+export enum PlaceEvents {
+  LoadPlace = 'Load place',
+  LoadPlaceSuccess = 'Load place success',
+  LoadPlaceFailure = 'Load place failure',
+}
 
 export const placeActions = createActionGroup({
-  source: 'Place-Place',
+  source: SliceNameSpace.Place,
   events: {
-    'Load Place': props<{ id: string }>(),
-    'Load Place Success': props<{ place: Place }>(),
-    'Load Place Failure': props<{ error: HttpErrorResponse }>(),
+    [PlaceEvents.LoadPlace]: props<{ id: string }>(),
+    [PlaceEvents.LoadPlaceSuccess]: props<{ place: Place }>(),
+    [PlaceEvents.LoadPlaceFailure]: props<{ error: HttpErrorResponse }>(),
   }
 });

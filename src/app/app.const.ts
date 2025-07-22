@@ -1,6 +1,7 @@
 export const MAX_SHOWN_COMMENTS = 10;
 export const MAX_SHOWN_NEAR_PLACES = 3;
 export const ADDITIONAL_MARKERS_QUANTITY = 3;
+export const API_TIMEOUT = 5000;
 export const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November'];
 const DEFAULT_MARKER_URL = 'img/pin.svg';
 const ACTIVE_MARKER_URL = 'img/pin-active.svg';
@@ -8,6 +9,7 @@ export const USER_PASSWORD_MIN_LENGTH = 2;
 export const USER_PASSWORD_MAX_LENGTH = 20;
 export const USER_COMMENT_MIN_LENGTH = 50;
 export const USER_COMMENT_MAX_LENGTH = 300;
+export const DEFAULT_TOKEN_NAME = 'TOKEN';
 
 export const RATING_GRADES = ['perfect', 'good', 'not bad', 'badly', 'terribly'] as const;
 export const MIN_PLACE_RATING = 1;
@@ -127,3 +129,4 @@ export enum SliceNameSpace {
   Previews = 'Previews',
   User = 'User'
 }
+

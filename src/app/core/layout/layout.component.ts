@@ -7,6 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { selectFavorites } from '@features/favorites/selectors';
+import { getFavoritePlacePreviews } from 'src/app/mocks/previews';
 
 @Component({
   selector: 'app-layout',
@@ -26,7 +27,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   public shouldFooterRender = false;
 
   private readonly store = inject(Store);
-  public readonly favorites = toSignal(this.store.select(selectFavorites), { initialValue: [] });
+  public readonly favorites = toSignal(this.store.select(selectFavorites), { initialValue: getFavoritePlacePreviews() });
 
   private readonly router = inject(Router);
   private urlChangeSubscription?: Subscription;

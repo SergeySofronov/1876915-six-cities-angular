@@ -1,11 +1,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { PlaceState } from './place.reducer';
+import { SliceNameSpace } from '@app/const';
+import { Signal } from '@angular/core';
 
-export const selectPlaceState = createFeatureSelector<PlaceState>('place');
+export const selectPlaceState = createFeatureSelector<PlaceState>(SliceNameSpace.Place);
 
-export const selectPlace = createSelector(
+export const selectPlaceById = (id: Signal<string>) => createSelector(
   selectPlaceState,
-  (state) => state.place
+  (state) => id && (state.place?.id === id()) ? state.place : null
 );
 
 export const selectPlaceLoading = createSelector(

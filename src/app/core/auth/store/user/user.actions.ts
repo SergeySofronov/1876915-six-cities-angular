@@ -21,7 +21,7 @@ export enum UserEvents {
 }
 
 export const userActions = createActionGroup({
-  source: `${SliceNameSpace.User}`,
+  source: SliceNameSpace.User,
   events: {
     [UserEvents.CheckAuth]: emptyProps(),
     [UserEvents.CheckAuthSuccess]: props<{ user: LoggedUser }>(),

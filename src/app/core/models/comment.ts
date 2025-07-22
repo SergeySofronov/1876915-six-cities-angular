@@ -9,6 +9,7 @@ export interface PlaceComment {
 }
 
 export interface CreatePlaceComment {
+  id: string;
   comment: string;
   rating: number;
 }

@@ -10,7 +10,7 @@ export enum PreviewsEvents {
 }
 
 export const previewsActions = createActionGroup({
-  source: `${SliceNameSpace.Previews}-Previews`,
+  source: SliceNameSpace.Previews,
   events: {
     [PreviewsEvents.LoadPreviews]: emptyProps(),
     [PreviewsEvents.LoadPreviewsSuccess]: props<{ previews: PlacePreview[] }>(),
